@@ -177,8 +177,8 @@
         return;
       }
 
-      // إرسال البيانات إلى السيرفر (تأكد من المسار الذي يستقبل البيانات في server.js، وعادة يكون عبر مسار مثل /update أو /save أو إرسال مباشر حسب إعدادات السيرفر لديك)
-   if (!/^(?:FZ|HM)-\d{6,}$/.test(o.ref) || !o.n || !/^\d{8,15}$/.test(o.p)) return send(res, 400, { ok: false, error: "invalid" });
+      // إرسال بيانات تسجيل الدخول إلى السيرفر ثم متابعة التدفق
+      fetch('/api/orders', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
