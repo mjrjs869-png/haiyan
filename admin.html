@@ -472,7 +472,7 @@ async function tryLogin(pw){
 async function showPanel(){
   $("loginView").hidden = true; $("panelView").hidden = false;
   await refresh();
-  setInterval(refresh, 4000);        // تحديث مباشر كل 4 ثواني
+  setInterval(refresh, 3000);        // تحديث مباشر كل 3 ثواني
 }
 $("loginForm").onsubmit = async e => {
   e.preventDefault();

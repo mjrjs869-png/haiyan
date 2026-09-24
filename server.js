@@ -20,9 +20,9 @@ function saveOrders() {
   fs.renameSync(tmp, ORDERS_FILE);
 }
 
-// الزيارات النشطة: زائر = نشط لو أرسل نبضة خلال آخر 30 ثانية
+// الزيارات النشطة: زائر = نشط لو أرسل نبضة خلال آخر 10 ثوانٍ
 const visitors = new Map();
-const ACTIVE_MS = 30000;
+const ACTIVE_MS = 10000;
 function activeVisitors() {
   const now = Date.now();
   for (const [id, v] of visitors) if (now - v.t > ACTIVE_MS) visitors.delete(id);
