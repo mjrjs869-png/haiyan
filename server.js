@@ -213,7 +213,9 @@ http.createServer((req, res) => {
   }
   fs.readFile(file, (err, data) => {
     if (err) { res.writeHead(302, { Location: "/" }); return res.end(); }
-    res.writeHead(200, { "Content-Type": TYPES[path.extname(file)] || "application/octet-stream" });
+    const headers = { "Content-Type": TYPES[path.extname(file)] || "application/octet-stream" };
+    if (path.extname(file) === ".html") headers["Cache-Control"] = "no-store";
+    res.writeHead(200, headers);
     res.end(data);
   });
 }).listen(PORT, () => console.log(`Fazaa site running on port ${PORT}`));
